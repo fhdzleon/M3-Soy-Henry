@@ -18,21 +18,37 @@ args.forEach(function (arg) {
   if (problem) problem();
 });
 
+//--------------------------------------------------------------------------------
+
 function problemA() {
   // callback version
+  //!---------
   exerciseUtils.readFile("poem-one/stanza-02.txt", function (err, stanza2) {
     exerciseUtils.blue(stanza2);
     exerciseUtils.readFile("poem-one/stanza-03.txt", function (err, stanza3) {
       exerciseUtils.blue(stanza3);
     });
   });
-
+  //!---------
   // promise version
   // Tu código acá:
+
+  exerciseUtils.promisifiedReadFile('poem-one/stanza-02.txt')
+  .then(stanza2 => {
+    exerciseUtils.blue(stanza2);
+    return exerciseUtils.promisifiedReadFile('poem-one/stanza-03.txt')
+  })
+  .then(stanza3 => {
+    exerciseUtils.blue(stanza3);
+  })
 }
+
+//--------------------------------------------------------------------------------
 
 function problemB() {
   // callback version
+
+  //!----------
   exerciseUtils.readFile(
     "poem-one/wrong-file-name.txt",
     function (err, stanza4) {
@@ -40,13 +56,26 @@ function problemB() {
       else exerciseUtils.blue(stanza4);
     }
   );
+  //!---------  
 
   // promise version
   // Tu código acá:
+  
+  exerciseUtils.promisifiedReadFile('poem-one/wrong-file-name.txt')
+  .then(stanza => {
+    exerciseUtils.blue(stanza);
+  })
+  .catch( error => {
+    const err = new Error(error)
+    exerciseUtils.magenta(err);
+  })
 }
 
+
+//---------------------------------------------------------------------------------
 function problemC() {
   // callback version
+  //!-----------
   exerciseUtils.readFile("poem-one/stanza-03.txt", function (err, stanza3) {
     if (err) return exerciseUtils.magenta(new Error(err));
     exerciseUtils.blue(stanza3);
@@ -58,7 +87,22 @@ function problemC() {
       }
     );
   });
+  //!------------
 
   // promise version
   // Tu código acá:
+
+  exerciseUtils.promisifiedReadFile('poem-one/stanza-03.txt')
+  .then(stanza3 => {
+    exerciseUtils.blue(stanza3)
+    return exerciseUtils.promisifiedReadFile('poem-one/stanza-04.txt') 
+  })
+  .then(stanza4 => {
+    exerciseUtils.blue(stanza4)
+  })
+  .catch ( error => {
+    const err = new Error(error)
+    exerciseUtils.magenta(err);
+  })
+
 }
